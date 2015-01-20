@@ -7,6 +7,13 @@ Original script: http://lpaste.net/104491'''
 
 import RPi.GPIO as GPIO
 import time
+import argparse
+
+parser = argparse.ArgumentParser(description='Loops through relays and '
+                                             'toggles them in a pattern')
+parser.add_argument('-s', metavar='SleepTime', default='0.2',
+                    help='The time to sleep between relay toggles')
+args = parser.parse_args()
 
 GPIO.setmode(GPIO.BCM)
 
@@ -17,9 +24,6 @@ gpioList = [2, 3, 4, 17, 27, 22, 10, 9]
 for i in gpioList:
     GPIO.setup(i, GPIO.OUT)
     GPIO.output(i, GPIO.HIGH)
-
-# time to sleep between operations in the main loop
-SleepTime = 0.1
 
 # main loop
 try:
