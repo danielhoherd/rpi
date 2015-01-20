@@ -52,6 +52,7 @@ def gpioLow(pin):
     gpioSet(pin, GPIO.LOW)
 
 def main():
+    iteration = 1
     try:
         while True:
             for i in gpioList:
@@ -63,6 +64,9 @@ def main():
                 gpioHigh(i)
 
             gpioList.reverse()
+
+            printDebug("Completed iteration {}".format(iteration))
+            iteration += 1
 
     # End program cleanly with keyboard
     except KeyboardInterrupt:
