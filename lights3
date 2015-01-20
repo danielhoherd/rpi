@@ -1,9 +1,9 @@
 #!/usr/bin/python
 
-'''Raspberry Pi relay test script 3
+'''Raspberry Pi relay test script 3.
 Find more information on this script at
 http://youtu.be/oaf_zQcrg7g
-Original script: http://lpaste.net/raw/104491'''
+Original script: http://lpaste.net/104491'''
 
 import RPi.GPIO as GPIO
 import time
@@ -19,17 +19,16 @@ for i in gpioList:
     GPIO.output(i, GPIO.HIGH)
 
 # time to sleep between operations in the main loop
-SleepTime = 0.2
+SleepTime = 0.1
 
 # main loop
-
 try:
     while True:
         for i in gpioList:
             GPIO.output(i, GPIO.HIGH)
             time.sleep(SleepTime);
 
-        gpioList.reverse()
+        #gpioList.reverse()
 
         for i in gpioList:
             GPIO.output(i, GPIO.LOW)
