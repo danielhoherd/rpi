@@ -28,7 +28,6 @@ SleepTimeL = 0.5
 
 try:
     while True:
-
         for i in pinList:
             GPIO.output(i, GPIO.LOW)
             time.sleep(SleepTimeS);
@@ -38,8 +37,6 @@ try:
             time.sleep(SleepTimeS);
             GPIO.output(i, GPIO.HIGH)
             time.sleep(SleepTimeL);
-
-
 
 
 # End program cleanly with keyboard
