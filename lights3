@@ -11,8 +11,8 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Loops through relays and '
                                              'toggles them in a pattern')
-parser.add_argument('-s', metavar='SleepTime', default='0.2',
-                    help='The time to sleep between relay toggles')
+parser.add_argument('--sleeptime', '-s', default='0.2', type=float,
+                    help='time to sleep between relay toggles')
 args = parser.parse_args()
 
 GPIO.setmode(GPIO.BCM)
@@ -25,24 +25,33 @@ for i in gpioList:
     GPIO.setup(i, GPIO.OUT)
     GPIO.output(i, GPIO.HIGH)
 
+def gpioSet(pin,state):
+    GPIO.output(i, state)
+    time.sleep(args.sleeptime);
+
+def gpioHigh(pin):
+    gpioSet(pin, GPIO.HIGH)
+
+def gpioLow(pin):
+    gpioSet(pin, GPIO.LOW)
+
 # main loop
 try:
     while True:
         for i in gpioList:
-            GPIO.output(i, GPIO.HIGH)
-            time.sleep(SleepTime);
+            gpioHigh(i)
 
         #gpioList.reverse()
 
         for i in gpioList:
-            GPIO.output(i, GPIO.LOW)
-            time.sleep(SleepTime);
+            gpioLow(i)
 
         gpioList.reverse()
 
 # End program cleanly with keyboard
 except KeyboardInterrupt:
-    print "  Quit"
+    print "  Keyboard interrupt, quitting."
 
+finally:
     # Reset GPIO settings
     GPIO.cleanup()
