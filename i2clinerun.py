@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-# Compiled by Joseph Dix, no rights reserved.
-# this is to test 32 relays connected to 2 mcp23017
-# see this in action @ Raspberry Pi with 32 relays and 2 mcp23017 
-# http://youtu.be/m83UdW67hVY
+''''Compiled by Joseph Dix, no rights reserved.
+this is to test 32 relays connected to 2 mcp23017
+see this in action @ Raspberry Pi with 32 relays and 2 mcp23017
+http://youtu.be/m83UdW67hVY'''
+
 import wiringpi2 as wiringpi, time, random
 
 wiringpi.wiringPiSetup()  # initialise wiringpi
