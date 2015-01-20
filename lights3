@@ -8,11 +8,14 @@ Original script: http://lpaste.net/104491'''
 import RPi.GPIO as GPIO
 import time
 import argparse
+from datetime import datetime
 
 parser = argparse.ArgumentParser(description='Loops through relays and '
                                              'toggles them in a pattern')
 parser.add_argument('--sleeptime', '-s', default='0.2', type=float,
-                    help='time to sleep between relay toggles')
+                    help='Time to sleep between relay toggles')
+parser.add_argument('--debug', '-d', action='store_true',
+                    help='Enables debug output')
 args = parser.parse_args()
 
 GPIO.setmode(GPIO.BCM)
@@ -20,13 +23,26 @@ GPIO.setmode(GPIO.BCM)
 # init list with gpio numbers
 gpioList = [2, 3, 4, 17, 27, 22, 10, 9]
 
-# loop through pins and set mode and state to 'low'
-for i in gpioList:
-    GPIO.setup(i, GPIO.OUT)
-    GPIO.output(i, GPIO.HIGH)
+# Define the length of the longest element for formatting purposes
+gpioListMaxLen = max([(len(str(x))) for x in gpioList])
+
+# list for state representation as string
+gpioState = ['on', 'off']
+
+# Clean start: loop through pins and set mode and state to 'low'
+for g in gpioList:
+    GPIO.setup(g, GPIO.OUT)
+    GPIO.output(g, GPIO.HIGH)
+
+def printDebug(debug):
+    if args.debug:
+        d = datetime.now()
+        print d.strftime("%F %T " + debug)
 
 def gpioSet(pin,state):
-    GPIO.output(i, state)
+    printDebug("{} {}".format(str(pin).ljust(gpioListMaxLen),
+                              gpioState[state]))
+    GPIO.output(pin, state)
     time.sleep(args.sleeptime);
 
 def gpioHigh(pin):
@@ -35,23 +51,26 @@ def gpioHigh(pin):
 def gpioLow(pin):
     gpioSet(pin, GPIO.LOW)
 
-# main loop
-try:
-    while True:
-        for i in gpioList:
-            gpioHigh(i)
+def main():
+    try:
+        while True:
+            for i in gpioList:
+                gpioLow(i)
 
-        #gpioList.reverse()
+            #gpioList.reverse()
 
-        for i in gpioList:
-            gpioLow(i)
+            for i in gpioList:
+                gpioHigh(i)
 
-        gpioList.reverse()
+            gpioList.reverse()
 
-# End program cleanly with keyboard
-except KeyboardInterrupt:
-    print "  Keyboard interrupt, quitting."
+    # End program cleanly with keyboard
+    except KeyboardInterrupt:
+        print "  Keyboard interrupt, quitting."
 
-finally:
-    # Reset GPIO settings
-    GPIO.cleanup()
+    finally:
+        # Reset GPIO settings
+        GPIO.cleanup()
+
+if __name__ == '__main__':
+    main()
