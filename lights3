@@ -13,7 +13,7 @@ from datetime import datetime
 parser = argparse.ArgumentParser(description='Loops through relays and '
                                              'toggles them in a pattern')
 parser.add_argument('--sleeptime', '-s', default='0.2', type=float,
-                    help='Time to sleep between relay toggles')
+                    help='Time in seconds to sleep between relay toggles')
 parser.add_argument('--debug', '-d', action='store_true',
                     help='Enables debug output')
 args = parser.parse_args()
