@@ -68,12 +68,10 @@ def main():
             printDebug("Completed iteration {}".format(iteration))
             iteration += 1
 
-    # End program cleanly with keyboard
     except KeyboardInterrupt:
         print "  Keyboard interrupt, quitting."
 
     finally:
-        # Reset GPIO settings
         GPIO.cleanup()
 
 if __name__ == '__main__':
