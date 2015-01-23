@@ -1,8 +1,7 @@
 #!/usr/bin/python
 
 '''Raspberry Pi relay test script 3.
-Find more information on this script at
-http://youtu.be/oaf_zQcrg7g
+Find more information on this script at http://youtu.be/oaf_zQcrg7g
 Original script: http://lpaste.net/104491'''
 
 import RPi.GPIO as GPIO
@@ -10,12 +9,10 @@ import time
 import argparse
 from datetime import datetime
 
-parser = argparse.ArgumentParser(description='Loops through relays and '
-                                             'toggles them in a pattern')
-parser.add_argument('--sleeptime', '-s', default='0.2', type=float,
-                    help='Time in seconds to sleep between relay toggles')
-parser.add_argument('--debug', '-d', action='store_true',
-                    help='Enables debug output')
+parser = argparse.ArgumentParser(description='Loops through relays and toggles them in a pattern')
+parser.add_argument('--sleeptime', '-s', default='0.2', type=float, help='Time in seconds to sleep between relay '
+                                                                         'toggles')
+parser.add_argument('--debug', '-d', action='store_true', help='Enables debug output')
 args = parser.parse_args()
 
 GPIO.setmode(GPIO.BCM)
@@ -34,22 +31,26 @@ for g in gpioList:
     GPIO.setup(g, GPIO.OUT)
     GPIO.output(g, GPIO.HIGH)
 
+
 def printDebug(debug):
     if args.debug:
         d = datetime.now()
         print d.strftime("%F %T " + debug)
 
-def gpioSet(pin,state):
-    printDebug("{} {}".format(str(pin).ljust(gpioListMaxLen),
-                              gpioState[state]))
+
+def gpioSet(pin, state):
+    printDebug("{} {}".format(str(pin).ljust(gpioListMaxLen), gpioState[state]))
     GPIO.output(pin, state)
     time.sleep(args.sleeptime);
+
 
 def gpioHigh(pin):
     gpioSet(pin, GPIO.HIGH)
 
+
 def gpioLow(pin):
     gpioSet(pin, GPIO.LOW)
+
 
 def main():
     iteration = 1
@@ -58,7 +59,7 @@ def main():
             for i in gpioList:
                 gpioLow(i)
 
-            #gpioList.reverse()
+            # gpioList.reverse()
 
             for i in gpioList:
                 gpioHigh(i)
@@ -73,6 +74,7 @@ def main():
 
     finally:
         GPIO.cleanup()
+
 
 if __name__ == '__main__':
     main()
